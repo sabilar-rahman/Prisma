@@ -1,16 +1,16 @@
 import prisma from "../DB/db.config.js";
 
-export const createUser = async (req, res)=>{
-    const {name, email, password} = req.body;
+export const createUser = async (req, res) => {
+    const { name, email, password } = req.body;
 
-    const findUser =  await prisma.user.findUnique({
-        where:{
+    const findUser = await prisma.user.findUnique({
+        where: {
             email: email
         }
 
     })
 
-    if(findUser){
+    if (findUser) {
         // return res.status(400).json({
         //     message: "User already exists"
         // })
@@ -25,4 +25,24 @@ export const createUser = async (req, res)=>{
         }
     })
     return res.json({ status: 200, message: "User created successfully", data: newUser });
+}
+
+// update user
+
+export const updateUser = async (req, res) => {
+    // const {id} = req.params;
+    const userId = req.params.id;
+    const { name, email, password } = req.body;
+
+  const updateUser =  await prisma.user.update({
+        where: {
+            id: Number(userId)
+        },
+        data: {
+            name: name,
+            email: email,
+            password: password
+        }
+    })
+    return res.json({ status: 200, message: "User updated successfully", data: updateUser });
 }
