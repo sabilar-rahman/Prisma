@@ -34,7 +34,7 @@ export const updateUser = async (req, res) => {
     const userId = req.params.id;
     const { name, email, password } = req.body;
 
-  const updateUser =  await prisma.user.update({
+    const updateUser = await prisma.user.update({
         where: {
             id: Number(userId)
         },
@@ -45,4 +45,22 @@ export const updateUser = async (req, res) => {
         }
     })
     return res.json({ status: 200, message: "User updated successfully", data: updateUser });
+}
+
+
+// Get all user in array
+export const getUsers = async (req, res) => {
+    const users = await prisma.user.findMany({});
+    return res.json({ status: 200, message: "User fetched successfully", data: users });
+}
+
+// get user by id
+export const getUserById = async (req, res) => {
+    const userId = req.params.id;
+    const user = await prisma.user.findUnique({
+        where: {
+            id: Number(userId)
+        }
+    })
+    return res.json({ status: 200, message: "User fetched successfully", data: user });
 }
