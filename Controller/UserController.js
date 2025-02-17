@@ -65,14 +65,14 @@ export const getUsers = async (req, res) => {
              */
 
          //for count post
-        select: {
+/*         select: {
             _count: {
                 select: {
                     post: true
                 }
 
             }
-        }
+        } */
     });
     return res.json({ status: 200, message: "User fetched successfully", data: users });
 }
