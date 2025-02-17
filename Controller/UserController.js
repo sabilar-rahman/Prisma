@@ -52,7 +52,13 @@ export const updateUser = async (req, res) => {
 export const getUsers = async (req, res) => {
     const users = await prisma.user.findMany({
         include: {
-            post: true
+            // post: true
+            post: {
+                select: {
+                    title: true,
+                    description: true
+                }
+            }
         }
     });
     return res.json({ status: 200, message: "User fetched successfully", data: users });
