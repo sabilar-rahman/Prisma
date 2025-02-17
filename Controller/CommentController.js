@@ -47,7 +47,16 @@ export const updateComment = async (req, res) => {
 
 // Get all comment in array
 export const getComments = async (req, res) => {
-    const comment = await prisma.comment.findMany({});
+    const comment = await prisma.comment.findMany({
+        include: {
+            //nested
+            post:{
+                include: {
+                    user: true
+                }
+            }
+        }
+    });
     return res.json({ status: 200, message: "comment fetched successfully", data: comment });
 }
 
