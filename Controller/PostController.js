@@ -62,10 +62,30 @@ export const getPosts = async (req, res) => {
     orderBy: {
       created_at: "desc",
     },
+    // where: {
+    //     comment_count: {
+    //         gt: 0
+    //     }
+    // }
+
+    // where: {
+    //     title: {
+    //         startsWith: "a"
+    //     }
+    // }
     where: {
-        comment_count: {
-            gt: 0
-        }
+        OR: [
+            {
+                title: {
+                    startsWith: "a"
+                }
+            },
+            {
+                description: {
+                    endsWith: "khulna"
+                }
+            }
+        ]
     }
   });
   return res.json({
