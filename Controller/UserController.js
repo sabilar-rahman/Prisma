@@ -68,7 +68,6 @@ export const getUsers = async (req, res) => {
         select: {
             _count: {
                 select: {
-
                     post: true
                 }
 

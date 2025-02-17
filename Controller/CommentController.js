@@ -22,7 +22,7 @@ export const createComment = async (req, res) => {
             comment
         }
     })
-    return res.json({ status: 200, message: "comment created successfully", data: newcomment });
+    return res.json({ status: 200, message: "comment created successfully", data: newComment });
 }
 
 // update comment
@@ -65,6 +65,18 @@ export const getCommentById = async (req, res) => {
 // delete comment 
 export const deleteComment = async (req, res) => {
     const commentId = req.params.id;
+
+        // Decrement comment count
+        await prisma.post.update({
+            where: {
+                id: Number(post_id)
+            },
+            data: {
+                comment_count: {
+                    decrement: 1
+                }
+            }
+        })
     const comment = await prisma.comment.delete({
         where: {
             id: Number(commentId)
