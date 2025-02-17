@@ -42,7 +42,22 @@ export const updatePost = async (req, res) => {
 
 // Get all post in array
 export const getPosts = async (req, res) => {
+
+    /* pagination */
+    const page = Number(req.query.page || 1);
+    const limit = Number(req.query.limit || 10);
+    if (page <= 0) {
+        page = 1
+    }
+    if (limit <= 0 || limit > 100) {
+        limit = 10
+    }
+    const skip = (page - 1) * limit;
+
     const post = await prisma.post.findMany({
+        skip: skip,
+        take:limit,
+        
         /* include: {
            //nested
            comment: {
@@ -75,26 +90,36 @@ export const getPosts = async (req, res) => {
         // }
 
 
-/*         where: {
-            OR: [
-                {
-                    title: {
-                        startsWith: "a"
-                    }
-                },
-                {
-                    description: {
-                        endsWith: "khulna"
-                    }
-                }
-            ]
-        } */
-       
+        /*         where: {
+                    OR: [
+                        {
+                            title: {
+                                startsWith: "a"
+                            }
+                        },
+                        {
+                            description: {
+                                endsWith: "khulna"
+                            }
+                        }
+                    ]
+                } */
+
     });
+
+    /* to get the total number of post count */
+
+    const totalPost = await prisma.post.count();
+    const totalPage = Math.ceil(totalPost / limit);
+
     return res.json({
         status: 200,
         message: "post fetched successfully",
-        data: post,
+        data: post, meta:{
+            totalPage,
+            currentPage:page,
+            limit:limit
+        }
     });
 };
 
@@ -148,3 +173,4 @@ export const SearchPost = async (req, res) => {
         data: post,
     });
 }
+
