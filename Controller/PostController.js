@@ -37,7 +37,19 @@ export const updatePost = async (req, res) => {
 export const getPosts = async (req, res) => {
     const post = await prisma.post.findMany({
         include: {
-            comment: true
+            //nested
+            comment:{
+                include: {
+                    // user: true
+                    user: {
+                        select: {
+                            name: true,
+                            email: true
+                        }
+                    }
+                }
+
+            }
         }
     });
     return res.json({ status: 200, message: "post fetched successfully", data: post });
