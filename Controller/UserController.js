@@ -51,13 +51,27 @@ export const updateUser = async (req, res) => {
 // Get all user in array
 export const getUsers = async (req, res) => {
     const users = await prisma.user.findMany({
-        include: {
-            // post: true
-            post: {
+        /* include: {
+             // post: true
+ 
+             //for specific field
+             post: {
+                 select: {
+                     title: true,
+                     description: true
+                 }
+             }
+         }
+             */
+
+         //for count post
+        select: {
+            _count: {
                 select: {
-                    title: true,
-                    description: true
+
+                    post: true
                 }
+
             }
         }
     });
