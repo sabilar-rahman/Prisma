@@ -3,6 +3,8 @@ import UserRouters from "./userRoutes.js";
 import PostRoutes from "./postRoute.js";
 import CommentRoutes from "./CommentRoute.js";
 
+/* কানেকশন to all routes */
+
 const router = Router();
 
 router.use("/api/user", UserRouters);
